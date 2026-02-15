@@ -1,2 +1,2 @@
 # WordleProject
-Custom variant of "Wordle" built using React
+Custom variant of "Wordle" built using React.
