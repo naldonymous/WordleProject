@@ -58,12 +58,61 @@ export default function Home() {
         // return cleanup function
         return () => window.removeEventListener("keydown", keyUsed);
         // dependencies (so if currGuess or gameOver changes, rerun component)
-    }, [currGuess, gameOver]);
+    }, [currGuess, gameOver, guesses.length, solution]);
+
+  const letterColor = (letter: string, index: number) => {
+    // if no letter, then just return it
+    if (!letter) {
+        return;
+    }
+
+    // split each letter up for the solution
+    const solutionLetters = solution.split("");
+    // make it all uppercase (wordle-like AND easier to work with)
+    const upperLetter = letter.toUpperCase();
+
+    // if the letter is the same as the solution at the same spot, green!
+    if (upperLetter === solutionLetters[index]) {
+        return "bg-green-600";
+    }
+
+    // if the letter is IN the word but not in the same spot, yellow
+    // TODO: implementing behaviour for letters appearing in word multiple times
+    if (solutionLetters.includes(upperLetter)) {
+        return "bg-yellow-600";
+    }
+
+    // otherwise it's incorrect entirely, make it grey
+    return "bg-zinc-700";
+  }
 
   return (
-    <main>
+    <main className = "flex flex-col items-center">
         <h1>Wordle Project</h1>
         <Navbar/>
+        <div className = "grid gap-2">
+            {[... Array(6)].map((_, rowIndex) => {
+                const pastGuess = rowIndex < guesses.length;
+                const currentGuess = rowIndex === guesses.length;
+                const rowWord = pastGuess ? guesses[rowIndex] : currentGuess ? currGuess : "";
+
+                return (
+                    <div key = {rowIndex} className = "flex gap-2">
+                        {[... Array(5)].map((_, letterIndex) => {
+                            const letter = rowWord[letterIndex];
+                            const pickcolor = pastGuess ? letterColor(letter, letterIndex) : "border-zinc-700";
+
+                            return (
+                                <div key = {letterIndex}
+                                    className={`w-14 h-14 border-2 flex items-center ${pickcolor}`}>
+                                    {letter}
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            })}
+        </div>  
     </main>
   );
 }
