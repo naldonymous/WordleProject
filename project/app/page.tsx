@@ -1,11 +1,12 @@
 "use client";
 import {useState, useEffect} from "react";
+import {VALID_GUESSES} from "../data/words";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
     // The daily solution, will make it random later (!!!).
-    const [solution, setSolution] = useState("LOREM");
+    const [solution, setSolution] = useState("APPLE");
     // The array of guesses (string).
     const [guesses, setGuesses] = useState<string[]>([]);
     // The current guess.
@@ -38,12 +39,25 @@ export default function Home() {
             if (e.key === 'Enter') {
                 // 5d
                 if (currGuess.length !== 5) {
+                    alert("Too short");
+                    return;
+                }
+
+                const allowed = VALID_GUESSES.includes(currGuess);
+
+                if (!allowed) {
+                    alert("Not a valid word!");
                     return;
                 }
                 // New list with currGuess
                 setGuesses(prev => [...prev, currGuess]);
                 // Set currGuess to empty
                 setCurrGuess("");
+
+                if (currGuess === solution || guesses.length + 1 === 6) {
+                    setGameOver(true);
+                    alert("Congratulations! You guess the word!")
+                }
                 return;
             }
         
