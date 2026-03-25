@@ -1,15 +1,14 @@
 "use client";
 import {useState, useEffect} from "react";
 import {VALID_GUESSES} from "@/data/words";
-import {Keyboard} from "@/components/Keyboard"
-import Image from "next/image";
-import Navbar from "@/components/Navbar";
+import {Footer, Keyboard, Navbar, StyleButton} from "@/components";
 
 export default function Home() {
   return (
     <main className = "flex flex-col items-center">
-        <h1>Wordle Project</h1>
-        <Navbar/>
+        <div id = "description" className = "flex">
+            <p>Hello! Welcome to Septordle</p>
+        </div>
     </main>
   );
 }

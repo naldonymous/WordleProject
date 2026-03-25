@@ -1,9 +1,8 @@
 "use client";
 import {useState, useEffect} from "react";
 import {VALID_GUESSES} from "@/data/words";
-import {Keyboard} from "@/components/Keyboard"
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
+import {Footer, Keyboard, Navbar, StyleButton} from "@/components";
 
 export default function Game() {
     // The daily solution, will make it random later (TODO).
@@ -102,13 +101,16 @@ export default function Game() {
   }
 
   const handleInput = (key: string) => {
-    // TODO:
+    if (key === "ENTER") {
+    } else if (key === "BACKSPACE") {
+        
+    } else {
+
+    };
   }
 
   return (
     <main className = "flex flex-col items-center gap-10">
-        <h1 className = "text-4xl pt-15">Wordle Project</h1>
-        <Navbar/>
         <div className = "grid gap-2 text-center">
             {[... Array(6)].map((_, rowIndex) => {
                 const pastGuess = rowIndex < guesses.length;
@@ -138,7 +140,6 @@ export default function Game() {
         <div>
             <Keyboard onKey = {handleInput}></Keyboard>
         </div>
-
     </main>
   );
 }
